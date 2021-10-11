@@ -11,6 +11,7 @@ app.config['SQLALCHEMY_ECHO'] = False
 app.config['TESTING'] = True
 
 db.drop_all()
+db.create_all()
 
 CUPCAKE_DATA = {
     "flavor": "TestFlavor",
@@ -32,7 +33,6 @@ class CupcakeViewsTestCase(TestCase):
 
     def setUp(self):
         """Make demo data."""
-        db.create_all()
 
         Cupcake.query.delete()
 

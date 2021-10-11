@@ -2,8 +2,8 @@
 
 from types import resolve_bases
 from flask import Flask, request, jsonify, render_template
-
 from models import db, connect_db, Cupcake, DEFAULT_PIC
+from forms import AddCupcakeForm
 
 app = Flask(__name__)
 
@@ -12,6 +12,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = "EvieTheCutiePie"
 
 connect_db(app)
+
+@app.route("/")
+def index_page():
+    """Renders html template that includes some JS - NOT PART OF JSON API!"""
+    form = AddCupcakeForm()
+    return render_template("home.html", form=form)
 
 @app.route("/api/cupcakes")
 def get_cupcakes():
@@ -29,7 +35,7 @@ def get_cupcake(cupcake_id):
 def create_cupcake():
     """Create a new cupcake and returns JSON of that cupcake"""
     new_cupcake = Cupcake(flavor=request.json["flavor"],
-    size=request.json["size"], rating=request.json["rating"], image=request.json.get("image", DEFAULT_PIC))
+    size=request.json["size"], rating=request.json["rating"], image=request.json["image"])
     db.session.add(new_cupcake)
     db.session.commit()
     response_json = jsonify(cupcake=new_cupcake.serialize())

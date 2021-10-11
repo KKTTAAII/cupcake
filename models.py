@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-DEFAULT_PIC = 'https://tinyurl.com/demo-cupcake'
+DEFAULT_PIC = "https://tinyurl.com/demo-cupcake"
 
 def connect_db(app):
     db.app = app
